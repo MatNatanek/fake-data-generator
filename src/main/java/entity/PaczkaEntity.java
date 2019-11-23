@@ -8,23 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KlientEntity {
+public class PaczkaEntity {
+
     @CsvBindByPosition(position = 0)
-    Integer id_klienta;
+    Integer id_przesylki;
     @CsvBindByPosition(position = 1)
-    String imie;
+    Integer waga;
     @CsvBindByPosition(position = 2)
-    String nazwisko;
+    Integer szerokosc_paczki;
     @CsvBindByPosition(position = 3)
-    String wojewodztwo;
+    Integer wysokosc_paczki;
     @CsvBindByPosition(position = 4)
-    String gmina;
-    @CsvBindByPosition(position = 5)
-    String ulica;
-    @CsvBindByPosition(position = 6)
-    String nr_budynku;
-    @CsvBindByPosition(position = 7)
-    String pesel;
-    @CsvBindByPosition(position = 8)
-    String numer_telefonu;
+    Integer dlugosc_paczki;
 }

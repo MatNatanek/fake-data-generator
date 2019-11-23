@@ -1,20 +1,20 @@
 package region;
 
 public enum Wojewodztwa {
-    DOL("dolnośląskie"),
+    DOL("dolnoslaskie"),
     KUJ("kujawsko-pomorskie"),
     LUB("lubelskie"),
     LUE("lubuskie"),
-    LDE("łódzkie"),
-    MAL("małopolskie"),
+    LDE("lodzkie"),
+    MAL("malopolskie"),
     MAZ("mazowieckie"),
     OPO("opolskie"),
     POD("podkarpackie"),
     POE("podlaskie"),
     POM("pomorskie"),
-    SLE("śląskie"),
-    SWE("świętrokrzyskie"),
-    WMM("warmińsko-mazurskie"),
+    SLE("slaskie"),
+    SWE("swietrokrzyskie"),
+    WMM("warminsko-mazurskie"),
     WPL("wielkopolskie"),
     ZPM("zachodniopomorskie");
 
