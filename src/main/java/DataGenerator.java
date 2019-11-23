@@ -1,14 +1,20 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import entity.KlientEntity;
 import region.Wojewodztwa;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public class DataGenerator {
     Faker faker = new Faker();
@@ -19,10 +25,43 @@ public class DataGenerator {
     HashSet<String> pinSet = new HashSet<String>();
 
     void generateData() {
-        System.out.println(generateKlientData(15));
+
+
+
+        csvFileFromLis(generateKlientData(KLIENT_ROW_NUMBER));
+
+
     }
 
-    //Nauczyć się typow generycznych
+    <T extends Object> void csvFileFromLis(List<T> list) {
+        try {
+            Writer writer = new FileWriter("klient.csv");
+            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
+            beanToCsv.write(list);
+
+            
+            writer.close();
+        } catch (CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvDataTypeMismatchException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    <T extends Object> void jsonFromList(List<T> arrayList) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(new File("jsonOutputFile\\klient.json"), arrayList);
+        } catch (IOException e) {
+            System.out.println("Exception  casting  arrayList to json file");
+        }
+
+
+    }
+
 
     ArrayList<KlientEntity> generateKlientData(int numberOfRecords) {
 
