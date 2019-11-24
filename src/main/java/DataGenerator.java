@@ -2,14 +2,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import entity.KlientEntity;
 import entity.PaczkaEntity;
+import entity.UmowaEntity;
 import region.Wojewodztwa;
 
 import java.io.File;
@@ -17,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class DataGenerator {
@@ -26,6 +27,7 @@ public class DataGenerator {
     private static final SecureRandom random = new SecureRandom();
     public static final int KLIENT_ROW_NUMBER = 1500;
     public static final int PACZKA_ROW_NUMBER = 1500;
+    public static final int UMOWA_ROW_NUMBER = 1500;
     HashSet<String> pinSet = new HashSet<String>();
 
     void generateData() {
@@ -33,6 +35,7 @@ public class DataGenerator {
 
         csvFileFromLis(generateKlientData(KLIENT_ROW_NUMBER), "klient.csv");
         csvFileFromLis(generatePaczkaData(PACZKA_ROW_NUMBER), "paczka.csv");
+        csvFileFromLis(generateUmowaData(UMOWA_ROW_NUMBER), "umowa.csv");
 
 
     }
@@ -42,8 +45,6 @@ public class DataGenerator {
         try {
             Writer writer = new FileWriter(fileName);
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).withApplyQuotesToAll(false).build();
-
-
             beanToCsv.write(list);
             writer.close();
         } catch (CsvRequiredFieldEmptyException e) {
@@ -88,19 +89,38 @@ public class DataGenerator {
         return klientEntityArrayList;
     }
 
-    ArrayList<PaczkaEntity> generatePaczkaData(int numberOfRecords){
+    ArrayList<PaczkaEntity> generatePaczkaData(int numberOfRecords) {
         ArrayList<PaczkaEntity> paczkaEntities = new ArrayList<PaczkaEntity>();
-        for(int i =0; i < numberOfRecords; i++){
+        for (int i = 0; i < numberOfRecords; i++) {
             PaczkaEntity paczka = new PaczkaEntity();
             paczka.setId_przesylki(i);
             paczka.setDlugosc_paczki(getRandomNumberInRange(10, 200));
-            paczka.setSzerokosc_paczki(getRandomNumberInRange(10,200));
+            paczka.setSzerokosc_paczki(getRandomNumberInRange(10, 200));
             paczka.setWysokosc_paczki(getRandomNumberInRange(10, 200));
             paczka.setWaga(getRandomNumberInRange(50, 5000));
             paczkaEntities.add(paczka);
         }
         System.out.println("Wygenerowano " + paczkaEntities.size() + " paczek");
         return paczkaEntities;
+    }
+
+    ArrayList<UmowaEntity> generateUmowaData(int numberOfRecords) {
+
+        ArrayList<UmowaEntity> umowaList = new ArrayList<UmowaEntity>();
+        for (int i = 0; i < numberOfRecords; i++) {
+            Date dateRoz = faker.date().birthday(1, 14);
+            Date dateZak = faker.date().birthday(1, 14);
+
+            UmowaEntity umowaEntity = new UmowaEntity();
+            umowaEntity.setId_umowy(i);
+            umowaEntity.setTyp(faker.leagueOfLegends().champion());
+            umowaEntity.setData_rozpoczecia(convertToLocalDate(dateRoz));
+            umowaEntity.setData_zakonczenia(convertToLocalDate(dateZak));
+            umowaEntity.setPensja(getRandomNumberInRange(1500, 5000));
+            umowaList.add(umowaEntity);
+        }
+        System.out.println("Wygenerowano " + pinSet.size() + " peseli");
+        return umowaList;
     }
 
     //Metody pomocnicze
@@ -131,5 +151,11 @@ public class DataGenerator {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    public LocalDate convertToLocalDate(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 }
