@@ -13,10 +13,10 @@ public class SamochodEntity {
 
     @CsvBindByPosition(position = 0)
     Integer id_samochodu;
+    @CsvBindByPosition(position = 3)
+    String marka;
     @CsvBindByPosition(position = 1)
     String nr_rejestracyjny;
     @CsvBindByPosition(position = 2)
     Integer pojemnosc;
-    @CsvBindByPosition(position = 3)
-    String marka;
 }

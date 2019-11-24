@@ -16,11 +16,11 @@ public class UmowaEntity {
     Integer id_umowy;
     @CsvBindByPosition(position = 1)
     String typ;
-    @CsvBindByPosition(position = 2)
-    LocalDate data_rozpoczecia;
     @CsvBindByPosition(position = 3)
-    LocalDate data_zakonczenia;
+    LocalDate data_rozpoczecia;
     @CsvBindByPosition(position = 4)
+    LocalDate data_zakonczenia;
+    @CsvBindByPosition(position = 2)
     Integer pensja;
 
 }

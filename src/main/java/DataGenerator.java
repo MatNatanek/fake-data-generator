@@ -24,13 +24,13 @@ public class DataGenerator {
     FakeValuesService fakeValuesService = new FakeValuesService(
             new Locale("en-GB"), new RandomService());
     private static final SecureRandom random = new SecureRandom();
-    public static final int KLIENT_ROW_NUMBER = 1500;
-    public static final int PACZKA_ROW_NUMBER = 1500;
-    public static final int UMOWA_ROW_NUMBER = 1500;
-    public static final int SAMOCHOD_ROW_NUMBER = 1500;
-    public static final int MAGAZYN_ROW_NUMBER = 1500;
-    public static final int KURIER_ROW_NUMBER = 1500;
-    public static final int ZLECENIE_ROW_NUMBER = 1500;
+    public static final int KLIENT_ROW_NUMBER = 50000;
+    public static final int PACZKA_ROW_NUMBER = 500000;
+    public static final int UMOWA_ROW_NUMBER = 50000;
+    public static final int SAMOCHOD_ROW_NUMBER = 50000;
+    public static final int MAGAZYN_ROW_NUMBER = 50000;
+    public static final int KURIER_ROW_NUMBER = 50000;
+    public static final int ZLECENIE_ROW_NUMBER = 500000;
 
     HashSet<String> pinSet = new HashSet<String>();
 
@@ -94,12 +94,12 @@ public class DataGenerator {
             zlecenieEntity.setWojewodztwo_wyslania(randomEnum(Wojewodztwa.class).label);
             zlecenieEntity.setGmina_wyslania(faker.address().cityName());
             zlecenieEntity.setNr_budynku_wyslania(faker.address().streetAddressNumber());
-            zlecenieEntity.setFk_id_klienta(getRandomNumberInRange(0, KLIENT_ROW_NUMBER));
-            zlecenieEntity.setFk_id_kuriera(getRandomNumberInRange(0, KURIER_ROW_NUMBER));
-            zlecenieEntity.setFk_id_przesylki(getRandomNumberInRange(0, PACZKA_ROW_NUMBER));
+            zlecenieEntity.setFk_id_klienta(getRandomNumberInRange(0, KLIENT_ROW_NUMBER-1));
+            zlecenieEntity.setFk_id_kuriera(getRandomNumberInRange(0, KURIER_ROW_NUMBER-1));
+            zlecenieEntity.setFk_id_przesylki(getRandomNumberInRange(0, PACZKA_ROW_NUMBER-1));
             zlecenieEntity.setStatus_realizacji(randomEnum(StatusRealizacji.class).label);
-            zlecenieEntity.setFk_magazyn_poczatkowy(getRandomNumberInRange(0, MAGAZYN_ROW_NUMBER));
-            zlecenieEntity.setFk_magazyn_koncowy(getRandomNumberInRange(0, MAGAZYN_ROW_NUMBER));
+            zlecenieEntity.setFk_magazyn_poczatkowy(getRandomNumberInRange(0, MAGAZYN_ROW_NUMBER-1));
+            zlecenieEntity.setFk_magazyn_koncowy(getRandomNumberInRange(0, MAGAZYN_ROW_NUMBER-1));
             //daty
             Date date1 = new Date(2015, 1, 1);
             Date date2 = new Date( 2019, 8, 1);
@@ -136,7 +136,7 @@ public class DataGenerator {
             kurierEntity.setPesel(getRandomPersonalIdNumber());
             kurierEntity.setFk_id_umowy(i);
             kurierEntity.setFk_id_samochodu(i);
-            kurierEntity.setFk_id_magazynu(i);
+            kurierEntity.setFk_id_magazynu(getRandomNumberInRange(0, MAGAZYN_ROW_NUMBER-1));
             kurierEntity.setWojewodztwo(randomEnum(Wojewodztwa.class).label);
             kurierEntity.setGmina(faker.address().cityName());
             kurierEntity.setUlica(faker.address().streetAddress());
@@ -156,7 +156,7 @@ public class DataGenerator {
         for (int i = 0; i < numberOfRecords; i++) {
            MagazynEntity magazyn = new MagazynEntity();
            magazyn.setId_magazynu(i);
-           magazyn.setId_magazynu(getRandomNumberInRange(1,20));
+           magazyn.setIlosc_bram(getRandomNumberInRange(1,20));
            magazyn.setGmina(faker.address().cityName());
            magazyn.setIlosc_pracownikow(getRandomNumberInRange(2,100));
            magazyn.setUlica(faker.address().streetAddress());
