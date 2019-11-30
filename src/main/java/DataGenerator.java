@@ -24,12 +24,12 @@ public class DataGenerator {
     FakeValuesService fakeValuesService = new FakeValuesService(
             new Locale("en-GB"), new RandomService());
     private static final SecureRandom random = new SecureRandom();
-    public static final int KLIENT_ROW_NUMBER = 50000;
-    public static final int PACZKA_ROW_NUMBER = 500000;
-    public static final int UMOWA_ROW_NUMBER = 50000;
-    public static final int SAMOCHOD_ROW_NUMBER = 50000;
-    public static final int MAGAZYN_ROW_NUMBER = 50000;
-    public static final int KURIER_ROW_NUMBER = 50000;
+    public static final int KLIENT_ROW_NUMBER = 100000;
+    public static final int PACZKA_ROW_NUMBER = 1000000;
+    public static final int UMOWA_ROW_NUMBER = 100000;
+    public static final int SAMOCHOD_ROW_NUMBER = 100000;
+    public static final int MAGAZYN_ROW_NUMBER = 100000;
+    public static final int KURIER_ROW_NUMBER = 100000;
     public static final int ZLECENIE_ROW_NUMBER = 500000;
 
     HashSet<String> pinSet = new HashSet<String>();
@@ -49,7 +49,8 @@ public class DataGenerator {
 
     <T extends Object> void csvFileFromLis(List<T> list, String fileName) {
         try {
-            Writer writer = new FileWriter(fileName);
+            String filePath = "target/" + fileName;
+            Writer writer = new FileWriter(filePath);
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).withApplyQuotesToAll(false).build();
             beanToCsv.write(list);
             writer.close();
@@ -63,8 +64,6 @@ public class DataGenerator {
 
     }
 
-
-
     ArrayList<SamochodEntity> generateSamochodData(int numberOfRecords) {
 
         ArrayList<SamochodEntity> samochodEntityArrayList = new ArrayList<SamochodEntity>();
@@ -76,7 +75,7 @@ public class DataGenerator {
             samochod.setMarka(faker.animal().name());
             samochodEntityArrayList.add(samochod);
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " peseli");
+        System.out.println("Wygenerowano " + numberOfRecords + " sam");
         return samochodEntityArrayList;
     }
 
@@ -121,7 +120,7 @@ public class DataGenerator {
             zlecenieEntityArrayList.add(zlecenieEntity);
 
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " kurierow");
+        System.out.println("Wygenerowano " + numberOfRecords + " zlecen");
         return zlecenieEntityArrayList;
     }
 
@@ -146,7 +145,7 @@ public class DataGenerator {
             kurierEntity.setNr_budynku(faker.address().streetAddressNumber());
             kurierEntityArrayList.add(kurierEntity);
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " kurierow");
+        System.out.println("Wygenerowano " + numberOfRecords + " Kurier");
         return kurierEntityArrayList;
     }
 
@@ -164,7 +163,7 @@ public class DataGenerator {
            magazyn.setWojewodztwo(randomEnum(Wojewodztwa.class).label);
            magazynEntityArrayList.add(magazyn);
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " peseli");
+        System.out.println("Wygenerowano " + pinSet.size() + " magazyn");
         return magazynEntityArrayList;
     }
 
@@ -184,7 +183,7 @@ public class DataGenerator {
             klientEntity.setNr_budynku(faker.address().streetAddressNumber());
             klientEntityArrayList.add(klientEntity);
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " peseli");
+        System.out.println("Wygenerowano " + numberOfRecords + " Klient");
         return klientEntityArrayList;
     }
 
@@ -199,7 +198,7 @@ public class DataGenerator {
             paczka.setWaga(getRandomNumberInRange(50, 5000));
             paczkaEntities.add(paczka);
         }
-        System.out.println("Wygenerowano " + paczkaEntities.size() + " paczek");
+        System.out.println("Wygenerowano " + numberOfRecords + " paczek");
         return paczkaEntities;
     }
 
@@ -218,7 +217,7 @@ public class DataGenerator {
             umowaEntity.setPensja(getRandomNumberInRange(1500, 5000));
             umowaList.add(umowaEntity);
         }
-        System.out.println("Wygenerowano " + pinSet.size() + " peseli");
+        System.out.println("Wygenerowano " + numberOfRecords + " umow");
         return umowaList;
     }
 
